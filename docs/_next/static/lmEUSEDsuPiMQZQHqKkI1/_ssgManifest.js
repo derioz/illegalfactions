@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002F[faction]","\u002Fadmin\u002Ffaction\u002F[factionId]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
