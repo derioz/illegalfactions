@@ -75,6 +75,7 @@ export function FactionEditor({ factionId }: { factionId: string }) {
         tagline: faction?.tagline || '',
         description: faction?.description || '',
         discordInvite: '',
+        featuredImage: faction?.featuredImage || '',
     });
     const [loreEntries, setLoreEntries] = useState<LoreEntry[]>([]);
     const [members, setMembers] = useState<Member[]>([]);
@@ -98,6 +99,7 @@ export function FactionEditor({ factionId }: { factionId: string }) {
                     tagline: data.tagline || faction.tagline,
                     description: data.description || faction.description,
                     discordInvite: data.discordInvite || '',
+                    featuredImage: data.featuredImage || faction.featuredImage || '',
                 });
             }
             const [loreSnap, membersSnap, gallerySnap, clipsSnap] = await Promise.all([
@@ -126,6 +128,7 @@ export function FactionEditor({ factionId }: { factionId: string }) {
                 tagline: factionInfo.tagline,
                 description: factionInfo.description,
                 discordInvite: factionInfo.discordInvite,
+                featuredImage: factionInfo.featuredImage,
                 updatedAt: new Date(),
             }, { merge: true });
             showMessage('success', 'Saved successfully!');
@@ -288,17 +291,89 @@ function SectionHeader({ title, count, onAdd, addLabel }: { title: string; count
 }
 
 // Info Tab
-function InfoTab({ faction, factionInfo, setFactionInfo, onSave, loading }: { faction: Faction; factionInfo: { tagline: string; description: string; discordInvite: string }; setFactionInfo: (info: typeof factionInfo) => void; onSave: () => void; loading: boolean }) {
+function InfoTab({ faction, factionInfo, setFactionInfo, onSave, loading }: { faction: Faction; factionInfo: { tagline: string; description: string; discordInvite: string; featuredImage: string }; setFactionInfo: (info: any) => void; onSave: () => void; loading: boolean }) {
+    const [uploading, setUploading] = useState(false);
+
+    const handleHeroUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const storage = getFirebaseStorage();
+        if (!storage) return;
+
+        setUploading(true);
+        try {
+            const storageRef = ref(storage, `hero/${faction.id}_${Date.now()}`);
+            await uploadBytes(storageRef, file);
+            const url = await getDownloadURL(storageRef);
+            setFactionInfo({ ...factionInfo, featuredImage: url });
+        } catch (err) {
+            console.error('Hero upload failed', err);
+        }
+        setUploading(false);
+    };
+
     return (
-        <Card className="max-w-2xl">
-            <h2 className="text-lg font-semibold text-white mb-6">Faction Information</h2>
-            <div className="space-y-5">
-                <Input label="Tagline" value={factionInfo.tagline} onChange={(e) => setFactionInfo({ ...factionInfo, tagline: e.target.value })} placeholder="Enter faction tagline..." />
-                <TextArea label="Description" rows={4} value={factionInfo.description} onChange={(e) => setFactionInfo({ ...factionInfo, description: e.target.value })} placeholder="Enter faction description..." />
-                <Input label="Discord Invite Link" type="url" value={factionInfo.discordInvite} onChange={(e) => setFactionInfo({ ...factionInfo, discordInvite: e.target.value })} placeholder="https://discord.gg/..." />
-                <div className="pt-2"><PrimaryButton onClick={onSave} loading={loading}>Save Changes</PrimaryButton></div>
-            </div>
-        </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card>
+                <h2 className="text-lg font-semibold text-white mb-6">Faction Information</h2>
+                <div className="space-y-5">
+                    <Input label="Tagline" value={factionInfo.tagline} onChange={(e) => setFactionInfo({ ...factionInfo, tagline: e.target.value })} placeholder="Enter faction tagline..." />
+                    <TextArea label="Description" rows={4} value={factionInfo.description} onChange={(e) => setFactionInfo({ ...factionInfo, description: e.target.value })} placeholder="Enter faction description..." />
+                    <Input label="Discord Invite Link" type="url" value={factionInfo.discordInvite} onChange={(e) => setFactionInfo({ ...factionInfo, discordInvite: e.target.value })} placeholder="https://discord.gg/..." />
+                    <div className="pt-2"><PrimaryButton onClick={onSave} loading={loading}>Save Changes</PrimaryButton></div>
+                </div>
+            </Card>
+
+            <Card>
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-semibold text-white">Homepage Hero Image</h2>
+                    <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${factionInfo.featuredImage ? 'bg-green-500' : 'bg-red-500'}`} />
+                        <span className="text-[10px] text-white/40 uppercase font-bold">{factionInfo.featuredImage ? 'Active' : 'Missing'}</span>
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="relative aspect-video rounded-xl bg-black/40 border-2 border-dashed border-white/10 overflow-hidden flex items-center justify-center group">
+                        {factionInfo.featuredImage ? (
+                            <>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={factionInfo.featuredImage} alt="Hero" className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <span className="text-white text-xs font-bold uppercase tracking-widest">Previewing Home Backdrop</span>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="flex flex-col items-center gap-2 text-white/20">
+                                {Icons.gallery}
+                                <span className="text-[10px] font-bold uppercase">No Image Selected</span>
+                            </div>
+                        )}
+                        {uploading && (
+                            <div className="absolute inset-0 bg-black/80 flex items-center justify-center">
+                                <span className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex gap-2">
+                        <Input
+                            label=""
+                            value={factionInfo.featuredImage}
+                            onChange={(e) => setFactionInfo({ ...factionInfo, featuredImage: e.target.value })}
+                            placeholder="Hero Image URL..."
+                            style={{ marginBottom: 0 }}
+                        />
+                        <label className="flex-none flex items-center justify-center px-4 bg-white/5 hover:bg-white/10 rounded-lg cursor-pointer transition-colors border border-white/10">
+                            <input type="file" accept="image/*" className="hidden" onChange={handleHeroUpload} disabled={uploading} />
+                            {Icons.upload}
+                        </label>
+                    </div>
+                    <p className="text-[10px] text-white/30 italic">This image will be used as your faction&apos;s background on the homepage selection reel.</p>
+                </div>
+            </Card>
+        </div>
     );
 }
 

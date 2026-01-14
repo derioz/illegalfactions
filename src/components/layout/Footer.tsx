@@ -1,12 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { factions } from '@/lib/factions';
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
+    const pathname = usePathname();
+    const isAdmin = pathname?.startsWith('/admin');
+
+    if (isAdmin) return null;
 
     return (
         <footer className="relative py-16 px-4 md:px-8 bg-[var(--background-secondary)] border-t border-white/5">

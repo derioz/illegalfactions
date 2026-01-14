@@ -9,12 +9,12 @@
   --background-tertiary: #1a1a24;
   --foreground: #f0f0f5;
   --foreground-muted: #8a8a9a;
-  
+
   /* Accent Colors */
   --accent-primary: #dc2626;
   --accent-secondary: #991b1b;
   --accent-glow: rgba(220, 38, 38, 0.4);
-  
+
   /* Effects */
   --glass-bg: rgba(18, 18, 26, 0.85);
   --glass-border: rgba(255, 255, 255, 0.08);
@@ -36,6 +36,26 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  /* Account for floating navbar */
+}
+
+/* ===== CUSTOM SCROLLBAR UTILITY ===== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 body {
@@ -72,11 +92,9 @@ body {
 }
 
 .glass-card {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -89,6 +107,7 @@ body {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -100,6 +119,7 @@ body {
     opacity: 0;
     transform: translateY(-40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -111,6 +131,7 @@ body {
     opacity: 0;
     transform: scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -121,24 +142,31 @@ body {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px var(--accent-glow);
   }
+
   50% {
     box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow);
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -148,6 +176,7 @@ body {
   from {
     clip-path: inset(0 100% 0 0);
   }
+
   to {
     clip-path: inset(0 0 0 0);
   }
@@ -157,6 +186,7 @@ body {
   0% {
     transform: translateY(-100%);
   }
+
   100% {
     transform: translateY(100vh);
   }
@@ -176,12 +206,10 @@ body {
 }
 
 .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
@@ -218,11 +246,9 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 0%,
-    rgba(0, 0, 0, 0.4) 100%
-  );
+  background: radial-gradient(ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) 100%);
   pointer-events: none;
 }
 
@@ -250,11 +276,9 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
+  background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.8) 100%);
   z-index: 1;
 }
 
@@ -289,12 +313,10 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
   transition: left 0.5s ease;
 }
 
@@ -365,12 +387,10 @@ body {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 10, 12, 0.4) 0%,
-    rgba(10, 10, 12, 0.8) 50%,
-    var(--background) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(10, 10, 12, 0.4) 0%,
+      rgba(10, 10, 12, 0.8) 50%,
+      var(--background) 100%);
 }
 
 /* ===== RESPONSIVE UTILITIES ===== */
@@ -378,7 +398,7 @@ body {
   .section-title {
     font-size: 2rem;
   }
-  
+
   .btn-cinematic,
   .btn-outline {
     padding: 12px 24px;
@@ -388,12 +408,10 @@ body {
 
 /* ===== LOADING STATES ===== */
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    var(--background-secondary) 0%,
-    var(--background-tertiary) 50%,
-    var(--background-secondary) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--background-secondary) 0%,
+      var(--background-tertiary) 50%,
+      var(--background-secondary) 100%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
   border-radius: 8px;

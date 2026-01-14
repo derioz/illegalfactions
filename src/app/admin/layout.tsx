@@ -47,18 +47,30 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
             {/* Sidebar */}
             <aside className="w-64 bg-[var(--background-secondary)] border-r border-white/5 flex flex-col fixed h-screen">
                 {/* Logo */}
-                <div className="p-6 border-b border-white/5">
-                    <Link href="/admin" className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
-                            <span className="text-white font-black text-lg">IF</span>
-                        </div>
-                        <div>
-                            <span className="text-lg font-bold text-white">Admin</span>
-                            {isSuperAdmin && (
-                                <span className="block text-xs text-red-400">Super Admin</span>
-                            )}
-                        </div>
-                    </Link>
+                <div className="p-6 border-b border-white/5 bg-black/20">
+                    <div className="flex flex-col gap-4">
+                        <Link href="/admin" className="flex items-center gap-3 group">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                                <span className="text-white font-black text-lg">IF</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-sm font-black uppercase tracking-wider text-white">Management</span>
+                                {isSuperAdmin && (
+                                    <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest leading-none mt-1">Super Authority</span>
+                                )}
+                            </div>
+                        </Link>
+
+                        <Link
+                            href="/"
+                            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all text-[10px] font-bold text-white/40 hover:text-white uppercase tracking-widest w-fit"
+                        >
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            View Website
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Navigation */}

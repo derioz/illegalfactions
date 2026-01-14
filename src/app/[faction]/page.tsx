@@ -10,6 +10,8 @@ import { GallerySection } from '@/components/faction/GallerySection';
 import { RedactedPage } from '@/components/faction/RedactedPage';
 import { PaleRidersPage } from '@/components/faction/PaleRidersPage';
 import { AngelsPage } from '@/components/faction/AngelsPage';
+import { OdinsChosenPage } from '@/components/faction/OdinsChosenPage';
+import { MujouKaiPage } from '@/components/faction/MujouKaiPage';
 
 // Generate static paths for all factions
 export function generateStaticParams() {
@@ -58,6 +60,14 @@ export default async function FactionPage({ params }: { params: Promise<{ factio
 
     if (faction.id === 'angels') {
         return <AngelsPage faction={faction} />;
+    }
+
+    if (faction.id === 'odins-chosen') {
+        return <OdinsChosenPage faction={faction} />;
+    }
+
+    if (faction.id === 'mujou-kai') {
+        return <MujouKaiPage faction={faction} />;
     }
 
     return (

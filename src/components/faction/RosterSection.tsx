@@ -194,29 +194,7 @@ export function RosterSection({ faction }: RosterSectionProps) {
                     ))}
                 </div>
 
-                {/* Join us CTA */}
-                <motion.div
-                    className="text-center mt-16"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                >
-                    <p className="text-[var(--foreground-muted)] mb-4 text-neutral-400">
-                        {isClassified ? 'Clearance level required.' : 'Think you have what it takes?'}
-                    </p>
-                    <motion.button
-                        className="btn-cinematic px-8 py-3 rounded-md font-bold text-white uppercase tracking-wider relative overflow-hidden"
-                        style={{
-                            background: `linear-gradient(135deg, ${faction.primaryColor} 0%, ${faction.gradientTo} 100%)`,
-                            boxShadow: `0 4px 20px ${faction.primaryColor}40`
-                        }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        {isClassified ? 'REQUEST ACCESS' : 'Apply to Join'}
-                    </motion.button>
-                </motion.div>
+
             </div>
         </section>
     );
