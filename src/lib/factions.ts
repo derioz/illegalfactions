@@ -141,14 +141,15 @@ export const factions: Faction[] = [
     {
         id: 'los-santos-mob',
         name: 'Los Santos Mob',
-        tagline: 'Respect Is Everything',
+        tagline: 'Business Over Bloodshed',
         type: 'mafia',
-        primaryColor: '#1e3a8a',
-        accentColor: '#d4af37',
-        gradientFrom: '#1e40af',
-        gradientTo: '#172554',
-        description: 'Old school values. New school methods. The family always comes first.',
-        featuredImage: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&q=80&w=1920'
+        primaryColor: '#8b7355',  // Smoky brown from logo
+        accentColor: '#c4a574',   // Muted gold/tan
+        gradientFrom: '#1a1816',  // Dark charcoal
+        gradientTo: '#0d0c0b',    // Near black
+        description: 'The MOB was quietly growing, stacking numbers with known, money driven shooters. Guys with reputations. Guys who didn\'t talk much, but everyone knew they\'d stand shoulder to shoulder when it mattered.',
+        logo: '/factions/los-santos-mob-logo.png',
+        featuredImage: '/factions/los-santos-mob-logo.png'
     },
     {
         id: 'mujou-kai',
